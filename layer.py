@@ -6,6 +6,8 @@ import test
 import nearbypubs
 import nearbyhospitals
 import complaint
+import live_status
+import pnr_status
 
 
 class EchoLayer(YowInterfaceLayer):
@@ -53,6 +55,10 @@ class EchoLayer(YowInterfaceLayer):
                         self.problem = inputList[1]
                         self.status = "complaint_image"
                         message = "Please Upload the image"
+
+                    elif inputMessage == "@pnr" and len(inputList) == 2:
+                        message = pnr_status.PNR(inputList[1])
+                        print message
 
                     outgoingMessageProtocolEntity = TextMessageProtocolEntity(
                         message,

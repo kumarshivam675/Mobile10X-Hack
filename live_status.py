@@ -23,4 +23,4 @@ def waypoints(train, date_val):
     print str(value[0])+" hrs"+" and "+str(value[1])+" mins"
     #print data["position"].split(" ")[-2]
 
-waypoints(sys.argv[1], sys.argv[2])
+#waypoints(sys.argv[1], sys.argv[2])

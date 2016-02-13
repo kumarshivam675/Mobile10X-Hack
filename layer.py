@@ -8,6 +8,7 @@ import nearbyhospitals
 import complaint
 import live_status
 import pnr_status
+import route
 
 
 class EchoLayer(YowInterfaceLayer):
@@ -15,6 +16,7 @@ class EchoLayer(YowInterfaceLayer):
     url = ""
     caption = ""
     problem = ""
+    destination = ""
     @ProtocolEntityCallback("message")
     def onMessage(self, messageProtocolEntity):
         # send receipt otherwise we keep receiving the same message over and over
@@ -60,6 +62,11 @@ class EchoLayer(YowInterfaceLayer):
                         message = pnr_status.PNR(inputList[1])
                         print message
 
+                    elif inputMessage == "@bus" and len(inputList) >= 2:
+                        self.status = "bus_origins"
+                        self.destination = " ".join(inputList[1:])
+                        message = "Please send your current location"
+
                     outgoingMessageProtocolEntity = TextMessageProtocolEntity(
                         message,
                         to=messageProtocolEntity.getFrom())
@@ -100,7 +107,13 @@ class EchoLayer(YowInterfaceLayer):
                             print messageProtocolEntity.getLatitude(), messageProtocolEntity.getLongitude()
                             message = "Complaint received. Thanks"
 
-                        print messageProtocolEntity.getLatitude(), messageProtocolEntity.getLongitude()
+                        elif self.status == "bus_origins":
+                            origin = ""
+                            origin += str(messageProtocolEntity.getLatitude()) + ","
+                            origin += str(messageProtocolEntity.getLongitude())
+                            print messageProtocolEntity.getLatitude(), messageProtocolEntity.getLongitude()
+                            message = route.waypoints(origin, self.destination)
+                            print message
 
                     elif messageProtocolEntity.getMediaType() == "image":
                         if self.status == "complaint_image":

@@ -29,4 +29,4 @@ def live_status(train, date_val):
     return ans
     #print data["position"].split(" ")[-2]
 
-#live_status(sys.argv[1], sys.argv[2])
+live_status(sys.argv[1], sys.argv[2])

@@ -12,14 +12,19 @@ def PNR(pnr):
     url = base+pnr_val+apikey
     response = urllib2.urlopen(url)
     data = json.load(response)
-    print url
-    ans += "date of journey : " + data["doj"] + "\n"
+    #print url
+    ans += "Date of journey : " + data["doj"] + "\n"
     ans += "Total passengers : " + str(data["total_passengers"]) + "\n"
     passengers = data["total_passengers"]
+    train_name = data["train_name"] + "\n"
+    boarding_point = "Boarding point : " + data["boarding_point"]["name"] + "\n"
+    destination = "Destination : " + data["to_station"]["name"] + "\n"
+    #print destination
+    #print boarding_point
     for i in range(0, passengers):
-        new_ans += str(data["passengers"][i]["current_status"]) + "\n"
-    #print ans + "Booking Status:" + "\n" + new_ans
-    return ans + "Booking Status:" + "\n" + new_ans
+        new_ans += str(data["passengers"][i]["current_status"]) + " " + str(data["passengers"][i]["booking_status"]) + "\n"
+    print boarding_point + destination + ans + "Booking Status:" + "\n" + new_ans
+    return boarding_point + destination + ans + "Booking Status:" + "\n" + new_ans
 
 
 #PNR(sys.argv[1])

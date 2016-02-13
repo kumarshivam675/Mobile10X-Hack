@@ -15,14 +15,21 @@ var map;
 var size = 0;
 var MarkerList = [];
 
+function addInformation(message, marker){
+  var infoWindow = new google.maps.InfoWindow({
+    content: message
+  });
+  google.maps.event.addListener(marker, 'click', function(){
+    infoWindow.open(map, marker);
+  });
+}
 
-function setMap(){
+
+function updateMap(){
   $.getJSON("/complains", function(result){
-    size = result.length;
-    for( i=0 ; i<size; i ++){
-        var latitude = result[i]['lat'];
-        var longitude = result[i]['lng'];
-        console.log(result[i]['lat']);
+    var tmpSize = result.length;
+    if(tmpSize > size){
+      for(i=size;i<tmpSize;i++){
         var latlng = {lat: parseFloat(result[i]['lat']), lng: parseFloat(result[i]['long'])};
         var contentString = "<p><b>" + result[i]['caption'] + "</b></p> <p><center><img src ='" + result[i]['image'] + "' height='250'></img></center></p>";
         var marker = new google.maps.Marker({
@@ -30,16 +37,37 @@ function setMap(){
           map: map,
           title: 'Hello!'
         });
-        var infowindow = new google.maps.InfoWindow({
-          content: contentString
-        });
-        marker.addListener('click', function(){
-          infowindow.open(map, marker);
-        });
+        addInformation(contentString, marker);
+        MarkerList.push(marker);
+        console.log("update!!");
+      }
+    }
+    else{
+      console.log("no chaneg");
+    }
+  });
 
+  setTimeout(updateMap, 5000);
+}
+
+
+function setMap(){
+  $.getJSON("/complains", function(result){
+    size = result.length;
+    for( i=0 ; i<size; i ++){
+        var latlng = {lat: parseFloat(result[i]['lat']), lng: parseFloat(result[i]['long'])};
+        var contentString = "<p><b>" + result[i]['caption'] + "</b></p> <p><center><img src ='" + result[i]['image'] + "' height='250'></img></center></p>";
+        var marker = new google.maps.Marker({
+          position: latlng,
+          map: map,
+          title: 'Hello!'
+        });
+        addInformation(contentString, marker);
         MarkerList.push(marker);
     }
   });
+  updateMap();
+
 }
 
 

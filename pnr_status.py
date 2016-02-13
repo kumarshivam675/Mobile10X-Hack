@@ -5,6 +5,7 @@ import sys
 #pnr = 4627941857
 def PNR(pnr):
     ans = ""
+    new_ans = ""
     base = "http://api.railwayapi.com/pnr_status/pnr/"
     pnr_val = str(pnr)
     apikey = "/apikey/icoyi9743"
@@ -16,8 +17,9 @@ def PNR(pnr):
     ans += "Total passengers : " + str(data["total_passengers"]) + "\n"
     passengers = data["total_passengers"]
     for i in range(0, passengers):
-        ans += "booking status :" + str(data["passengers"][i]["current_status"])
-    return ans
+        new_ans += str(data["passengers"][i]["current_status"]) + "\n"
+    #print ans + "Booking Status:" + "\n" + new_ans
+    return ans + "Booking Status:" + "\n" + new_ans
 
 
-#waypoints(sys.argv[1])
+PNR(sys.argv[1])

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style type="text/css">
+      html, body { height: 100%; margin: 0; padding: 0; }
+      #map { height: 100%; }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script type="text/javascript">
+
+var map;
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: -34.397, lng: 150.644},
+    zoom: 8
+  });
+  var myLatLng = {lat: -25.363, lng: 131.044};
+  var contentString = "<p> <img src = 'https://mmi422.whatsapp.net/d/m4Fv07UMn01AVuxzggCjtVa_KiAABSumcJGvXQ/Am8S8rRyGDuXkUZ33Gc6O5xGQabYYCbMN4kkV5yHpiPD.jpg'> </img></p>";
+  var marker = new google.maps.Marker({
+    position: myLatLng,
+    map: map,
+    title: 'Hello World!'
+  });
+  var infowindow = new google.maps.InfoWindow({
+    content: contentString
+  });
+  marker.addListener('click', function() {
+    infowindow.open(map, marker);
+  });
+
+  $.getJSON("http://localhost:5000", function(result){
+    console.log(result[1]);
+  });
+
+
+}
+
+    </script>
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDdQ7s45BmvC8iLLLUI3feNvCEnGL3lXmM&callback=initMap">
+    </script>
+  </body>
+</html>

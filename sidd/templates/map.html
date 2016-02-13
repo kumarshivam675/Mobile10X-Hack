@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style type="text/css">
+      html, body { height: 100%; margin: 0; padding: 0; }
+      #map { height: 100%; }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script type="text/javascript">
+
+var map;
+var size = 0;
+var MarkerList = [];
+
+
+function setMap(){
+  $.getJSON("/complains", function(result){
+    size = result.length;
+    for( i=0 ; i<size; i ++){
+        var latitude = result[i]['lat'];
+        var longitude = result[i]['lng'];
+        console.log(result[i]['lat']);
+        var latlng = {lat: parseFloat(result[i]['lat']), lng: parseFloat(result[i]['long'])};
+        var contentString = "<p><b>" + result[i]['caption'] + "</b></p> <p><center><img src ='" + result[i]['image'] + "' height='250'></img></center></p>";
+        var marker = new google.maps.Marker({
+          position: latlng,
+          map: map,
+          title: 'Hello!'
+        });
+        var infowindow = new google.maps.InfoWindow({
+          content: contentString
+        });
+        marker.addListener('click', function(){
+          infowindow.open(map, marker);
+        });
+
+        MarkerList.push(marker);
+    }
+  });
+}
+
+
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 12.9667, lng: 77.5667},
+    zoom: 8
+  });
+  setMap();
+
+
+}
+
+    </script>
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDdQ7s45BmvC8iLLLUI3feNvCEnGL3lXmM&callback=initMap">
+    </script>
+  </body>
+</html>

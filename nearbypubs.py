@@ -15,9 +15,9 @@ def waypoints(src):
     for i in range(2, 20):
         if (data["results"][i]["types"][0] == "lodging"):
             print data["results"][i]["name"]
-            print "ratings :" + str(data["results"][i]["rating"])
+            #print "ratings :" + str(data["results"][i]["rating"])
 
-            ans.append([data["results"][i]["name"],data["results"][i]["rating"]])
+            ans.append([data["results"][i]["name"],""])
     return ans
         # print data
         # distance = data["routes"][0]["legs"][0]["distance"]["text"]

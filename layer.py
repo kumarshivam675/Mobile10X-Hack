@@ -5,10 +5,13 @@ from yowsup.layers.protocol_acks.protocolentities import OutgoingAckProtocolEnti
 import test
 import nearbypubs
 import nearbyhospitals
+import complaint
 
 
 class EchoLayer(YowInterfaceLayer):
     status = "continue"
+    url = ""
+    caption = ""
     @ProtocolEntityCallback("message")
     def onMessage(self, messageProtocolEntity):
         # send receipt otherwise we keep receiving the same message over and over
@@ -36,15 +39,6 @@ class EchoLayer(YowInterfaceLayer):
                     elif inputMessage == "@help":
                         message = "@cab: to get cab details \n@hospital: to get hospitals nearby \n@hotels: to get pubs nearby \n"
 
-                    # elif inputMessage == "@distance" and len(inputList) == 2:
-                    #     destination = inputList[1]
-                    #     self.status = "distance_destination"
-                    #     message = "Please send your location"
-                    #
-                    # elif inputMessage == "@distance" and len(inputList) == 3:
-                    #     origin = inputList[1]
-                    #     destination = inputList[2]
-                    #     message = "Distance from silk board to whitefield is 20.0 km . Expected Commute time is 1 h 12 min."
 
                     elif inputMessage == "@hotels" and len(inputList) == 1:
                         self.status = "hotels_origin"
@@ -54,6 +48,10 @@ class EchoLayer(YowInterfaceLayer):
                         self.status = "hospital_origin"
                         message = "Please send your location"
 
+                    elif inputMessage == "@complaint":
+                        self.status = "complaint_image"
+                        message = "Please Upload the image"
+
                     outgoingMessageProtocolEntity = TextMessageProtocolEntity(
                         message,
                         to=messageProtocolEntity.getFrom())
@@ -61,11 +59,12 @@ class EchoLayer(YowInterfaceLayer):
                     self.toLower(receipt)
                     self.toLower(outgoingMessageProtocolEntity)
                 elif messageProtocolEntity.getType() == "media":
+                    message = ""
                     if messageProtocolEntity.getMediaType() == "location":
-                        message = ""
                         if self.status == "distance_destination":
                             message = "Distance to majestic is 20.8 km.\n Expected Commute time is 55 mins"
                             self.status == "waiting"
+                            print messageProtocolEntity.getLatitude(), messageProtocolEntity.getLongitude()
 
                         elif self.status == "hotels_origin":
                             ans = nearbypubs.waypoints([messageProtocolEntity.getLatitude(), messageProtocolEntity.getLongitude()])
@@ -74,6 +73,8 @@ class EchoLayer(YowInterfaceLayer):
                             for i in ans:
                                 message += str(k) + ". " +i[0] + ", Rating: " + str(i[1]) + "\n"
                                 k += 1
+                            self.status = "continue"
+                            print messageProtocolEntity.getLatitude(), messageProtocolEntity.getLongitude()
 
                         elif self.status == "hospital_origin":
                             ans = nearbyhospitals.waypoints([messageProtocolEntity.getLatitude(), messageProtocolEntity.getLongitude()])
@@ -82,10 +83,25 @@ class EchoLayer(YowInterfaceLayer):
                             for i in ans:
                                 message += str(k) + ". " +i + "\n"
                                 k += 1
+                            self.status = "continue"
+                            print messageProtocolEntity.getLatitude(), messageProtocolEntity.getLongitude()
 
+                        elif self.status == "complaint_location":
+                            complaint.complaintLodge(messageProtocolEntity.getLatitude(),messageProtocolEntity.getLongitude(), self.url,self.caption)
+                            self.status = "continue"
+                            print messageProtocolEntity.getLatitude(), messageProtocolEntity.getLongitude()
+                            message = "Complaint received. Thanks"
 
                         print messageProtocolEntity.getLatitude(), messageProtocolEntity.getLongitude()
-                        outgoingMessageProtocolEntity = TextMessageProtocolEntity(
+
+                    elif messageProtocolEntity.getMediaType() == "image":
+                        if self.status == "complaint_image":
+                            self.url = messageProtocolEntity.getMediaUrl()
+                            self.caption = messageProtocolEntity.getCaption()
+                            self.status = "complaint_location"
+                            message = "Image received. Please send your location"
+
+                    outgoingMessageProtocolEntity = TextMessageProtocolEntity(
                             message,
                             to=messageProtocolEntity.getFrom())
 

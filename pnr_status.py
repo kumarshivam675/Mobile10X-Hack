@@ -27,4 +27,4 @@ def PNR(pnr):
     return boarding_point + destination + ans + "Booking Status:" + "\n" + new_ans
 
 
-PNR(sys.argv[1])
+#PNR(sys.argv[1])

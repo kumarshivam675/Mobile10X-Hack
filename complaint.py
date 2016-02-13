@@ -1,8 +1,8 @@
 import csv
 
 
-def complaintLodge(lat, long, url, caption):
-    hello = [[lat,long,url,caption]]
+def complaintLodge(problem,lat, long, url, caption):
+    hello = [[problem,lat,long,url,caption]]
 
     print lat, long, url, caption
     with open('complaint.csv', 'a') as testfile:

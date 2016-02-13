@@ -12,6 +12,7 @@ class EchoLayer(YowInterfaceLayer):
     status = "continue"
     url = ""
     caption = ""
+    problem = ""
     @ProtocolEntityCallback("message")
     def onMessage(self, messageProtocolEntity):
         # send receipt otherwise we keep receiving the same message over and over
@@ -48,7 +49,8 @@ class EchoLayer(YowInterfaceLayer):
                         self.status = "hospital_origin"
                         message = "Please send your location"
 
-                    elif inputMessage == "@complaint":
+                    elif inputMessage == "@complaint" and len(inputList) == 2:
+                        self.problem = inputList[1]
                         self.status = "complaint_image"
                         message = "Please Upload the image"
 
@@ -87,7 +89,7 @@ class EchoLayer(YowInterfaceLayer):
                             print messageProtocolEntity.getLatitude(), messageProtocolEntity.getLongitude()
 
                         elif self.status == "complaint_location":
-                            complaint.complaintLodge(messageProtocolEntity.getLatitude(),messageProtocolEntity.getLongitude(), self.url,self.caption)
+                            complaint.complaintLodge(self.problem,messageProtocolEntity.getLatitude(),messageProtocolEntity.getLongitude(), self.url,self.caption)
                             self.status = "continue"
                             print messageProtocolEntity.getLatitude(), messageProtocolEntity.getLongitude()
                             message = "Complaint received. Thanks"

@@ -62,6 +62,12 @@ class EchoLayer(YowInterfaceLayer):
                         message = pnr_status.PNR(inputList[1])
                         print message
 
+                    elif inputMessage == "@status" and len(inputList) == 3:
+                        print inputList[1], inputList[2]
+                        message = live_status.live_status(inputList[1],inputList[2])
+                        #message = ""
+                        print message
+
                     elif inputMessage == "@bus" and len(inputList) >= 2:
                         self.status = "bus_origins"
                         self.destination = " ".join(inputList[1:])

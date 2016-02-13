@@ -16,10 +16,15 @@ def PNR(pnr):
     ans += "date of journey : " + data["doj"] + "\n"
     ans += "Total passengers : " + str(data["total_passengers"]) + "\n"
     passengers = data["total_passengers"]
+    train_name = data["train_name"] + "\n"
+    boarding_point = "boarding_point : " + data["boarding_point"]["name"] + "\n"
+    destination = "destination : " + data["to_station"]["name"] + "\n"
+    #print destination
+    #print boarding_point
     for i in range(0, passengers):
-        new_ans += str(data["passengers"][i]["current_status"]) + "\n"
-    #print ans + "Booking Status:" + "\n" + new_ans
-    return ans + "Booking Status:" + "\n" + new_ans
+        new_ans += str(data["passengers"][i]["current_status"]) + " " + str(data["passengers"][i]["booking_status"]) + "\n"
+    print boarding_point + destination + ans + "Booking Status:" + "\n" + new_ans
+    return boarding_point + destination + ans + "Booking Status:" + "\n" + new_ans
 
 
 PNR(sys.argv[1])

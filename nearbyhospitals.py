@@ -5,13 +5,15 @@ import sys
 
 def waypoints(src):
     base = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
-    location = "location=" + str(src[0]) + "," + str(src[1]) + "&radius=1000" + "&types=hospital"
+    location = "location=" + str(src[0]) + "," + str(src[1]) + "&radius=2000" + "&types=hospital"
     key = "&key=AIzaSyDwaKYumwoHsN-wgn249eep63oHdtefl9w"
     url = base + location + key
     #print url
     response = urllib2.urlopen(url)
     data = json.load(response)
     ans = []
+    print url
+    for i in range(2, 8):
     #print url
     #print length
     length=len(data["results"]) if len(data["results"]) <5 else 5

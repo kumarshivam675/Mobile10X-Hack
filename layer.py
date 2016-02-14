@@ -3,6 +3,7 @@ from yowsup.layers.protocol_messages.protocolentities import TextMessageProtocol
 from yowsup.layers.protocol_receipts.protocolentities import OutgoingReceiptProtocolEntity
 from yowsup.layers.protocol_acks.protocolentities import OutgoingAckProtocolEntity
 import test
+import passport
 import nearbypubs
 import nearbyhospitals
 import complaint
@@ -37,38 +38,37 @@ class EchoLayer(YowInterfaceLayer):
 
                     message = "Invalid Format"
 
-                    if inputMessage == "@cab":
+                    if inputMessage == "#passport":
                         inputId = messageProtocolEntity.getParticipant()[2:12]
-                        message = test.cabDetail(inputId)
+                        message = passport.passportDetail(inputId)
 
-                    elif inputMessage == "@help":
-                        message = "@cab: to get cab details \n@hospital: to get hospitals nearby \n@hotels: to get pubs nearby \n"
+                    elif inputMessage == "#zense":
+                        message = "#cab: to get cab details \n#hospital: to get hospitals nearby \n#hotels: to get pubs nearby \n#pnr <pnr number> to get PNR details\n#complaint <type> to register a complaint"
 
-
-                    elif inputMessage == "@hotels" and len(inputList) == 1:
+                    elif inputMessage == "#hotels" and len(inputList) == 1:
                         self.status = "hotels_origin"
                         message = "Please send your location"
 
-                    elif inputMessage == "@hospital" and len(inputList) == 1:
+                    elif inputMessage == "#hospital" and len(inputList) == 1:
                         self.status = "hospital_origin"
                         message = "Please send your location"
 
-                    elif inputMessage == "@complaint" and len(inputList) == 2:
+                    elif inputMessage == "#complaint" and len(inputList) == 2:
                         self.problem = inputList[1]
                         self.status = "complaint_image"
                         message = "Please Upload the image"
 
-                    elif inputMessage == "@pnr" and len(inputList) == 2:
+                    elif inputMessage == "#pnr" and len(inputList) == 2:
                         message = pnr_status.PNR(inputList[1])
                         print message
 
-                    elif inputMessage == "@status" and len(inputList) == 3:
+                    elif inputMessage == "#status" and len(inputList) == 3:
                         print inputList[1], inputList[2]
                         message = live_status.live_status(inputList[1],inputList[2])
                         #message = ""
                         print message
 
-                    elif inputMessage == "@bus" and len(inputList) >= 2:
+                    elif inputMessage == "#bus" and len(inputList) >= 2:
                         self.status = "bus_origins"
                         self.destination = " ".join(inputList[1:])
                         message = "Please send your current location"
@@ -82,12 +82,8 @@ class EchoLayer(YowInterfaceLayer):
                 elif messageProtocolEntity.getType() == "media":
                     message = ""
                     if messageProtocolEntity.getMediaType() == "location":
-                        if self.status == "distance_destination":
-                            message = "Distance to majestic is 20.8 km.\n Expected Commute time is 55 mins"
-                            self.status == "waiting"
-                            print messageProtocolEntity.getLatitude(), messageProtocolEntity.getLongitude()
 
-                        elif self.status == "hotels_origin":
+                        if self.status == "hotels_origin":
                             ans = nearbypubs.waypoints([messageProtocolEntity.getLatitude(), messageProtocolEntity.getLongitude()])
                             print len(ans)
                             k = 1

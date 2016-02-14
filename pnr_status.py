@@ -23,7 +23,7 @@ def PNR(pnr):
     #print boarding_point
     for i in range(0, passengers):
         new_ans += str(data["passengers"][i]["current_status"]) + " " + str(data["passengers"][i]["booking_status"]) + "\n"
-    print boarding_point + destination + ans + "Booking Status:" + "\n" + new_ans
+    #print boarding_point + destination + ans + "Booking Status:" + "\n" + new_ans
     return boarding_point + destination + ans + "Booking Status:" + "\n" + new_ans
 
 

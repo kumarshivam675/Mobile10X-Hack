@@ -36,24 +36,28 @@ class EchoLayer(YowInterfaceLayer):
                     print inputList, len(inputList)
                     inputMessage = inputList[0]
 
-                    message = "Invalid Format"
+                    message = "Invalid Command. Please type #info"
 
                     if inputMessage == "#passport":
                         inputId = messageProtocolEntity.getParticipant()[2:12]
                         message = passport.passportDetail(inputId)
 
-                    elif inputMessage == "#zense":
+                    if inputMessage == "#cab":
+                        inputId = messageProtocolEntity.getParticipant()[2:12]
+                        message = test.cabDetail(inputId)
+
+                    elif inputMessage == "#info":
                         message = "#cab: to get cab details \n#hospital: to get hospitals nearby \n#hotels: to get pubs nearby \n#pnr <pnr number> to get PNR details\n#complaint <type> to register a complaint"
 
                     elif inputMessage == "#hotels" and len(inputList) == 1:
                         self.status = "hotels_origin"
                         message = "Please send your location"
 
-                    elif inputMessage == "#hospital" and len(inputList) == 1:
+                    elif inputMessage == "#hospitals" and len(inputList) == 1:
                         self.status = "hospital_origin"
                         message = "Please send your location"
 
-                    elif inputMessage == "#complaint" and len(inputList) == 2:
+                    elif inputMessage == "#complaints" and len(inputList) == 2:
                         self.problem = inputList[1]
                         self.status = "complaint_image"
                         message = "Please Upload the image"

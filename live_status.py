@@ -7,15 +7,15 @@ from datetime import datetime
 # pnr = 4627941857
 def live_status(train, date_val):
     # base = http://api.railwayapi.com/live/train/22351/doj/20160212/apikey/yourapikey/
-    yrM=datetime.now().strftime('%Y-%m')
-    if int(date_val)<9:
-        date_val='0'+str(date_val)
-    date_val=yrM+"-"+str(date_val)
+    # yrM=datetime.now().strftime('%Y-%m')
+    # if int(date_val)<9:
+        # date_val='0'+str(date_val)
+    # date_val=yrM+"-"+str(date_val)
     # print date_val
 
     base = "http://api.railwayapi.com/live/train/"
     pnr_val = str(train)
-    date = "/doj/" + date_val.replace("-","")
+    date = "/doj/" + str(date_val)#.replace("-","")
     apikey = "/apikey/icoyi9743"
     url = base + pnr_val + date + apikey
     # print url
@@ -38,4 +38,4 @@ def live_status(train, date_val):
     return ans
     # print data["position"].split(" ")[-2]
 
-# live_status(12295,3)
+# live_status(12295,20160214)

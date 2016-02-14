@@ -7,8 +7,11 @@ app = Flask(__name__, static_url_path='')
 
 @app.route('/')
 def index():
-
     return render_template('map.html')
+
+@app.route('/heat')
+def heat():
+	return render_template('heatmap.html')
 
 @app.route('/complains')
 def complains():

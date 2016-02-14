@@ -17,7 +17,7 @@ def live_status(train, date_val):
     # print url
     # print data["position"].split(" ")[-2]
     location = data["position"]
-    print "hello ", location
+    #print "hello ", location
     time = data["position"].split(" ")[-2]
     # print location
     value = divmod(int(time), 60)
@@ -27,8 +27,8 @@ def live_status(train, date_val):
     # print value
     in_hrs = str(value[0]) + " hrs" + " and " + str(value[1]) + " mins"
     ans += in_hrs
-    print ans
+    #print ans
     return ans
     # print data["position"].split(" ")[-2]
 
-# live_status(sys.argv[1], sys.argv[2])
+#live_status(sys.argv[1], sys.argv[2])

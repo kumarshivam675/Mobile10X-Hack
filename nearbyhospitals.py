@@ -8,11 +8,16 @@ def waypoints(src):
     location = "location=" + str(src[0]) + "," + str(src[1]) + "&radius=2000" + "&types=hospital"
     key = "&key=AIzaSyDwaKYumwoHsN-wgn249eep63oHdtefl9w"
     url = base + location + key
+    #print url
     response = urllib2.urlopen(url)
     data = json.load(response)
     ans = []
     print url
     for i in range(2, 8):
+    #print url
+    #print length
+    length=len(data["results"]) if len(data["results"]) <5 else 5
+    for i in range(0, length):
         # if (data["results"][i]["types"][0] == "hospital"): #data["results"][i]["types"][1] == "hospitals" or data["results"][i]["types"][2] == "hospitals"):
         print data["results"][i]["name"]
         #print "ratings :" + data["results"][i]["rating"]
@@ -31,7 +36,7 @@ def waypoints(src):
 
 
 #waypoints([sys.argv[1], sys.argv[2]])
-# waypoints([12.9817447954723,77.574481312945], [12.9899747663903,77.572098665973])
+#waypoints([[12.9817447954723,77.574481312945], [12.9899747663903,77.572098665973]])
 # whitefield: 12.971289, 77.750098
 # silk board: 12.917630, 77.623379
 # iiitb: 12.8446784,77.6610528

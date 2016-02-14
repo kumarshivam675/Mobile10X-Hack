@@ -4,6 +4,7 @@ import sys
 
 #pnr = 4627941857
 def PNR(pnr):
+    print pnr
     ans = ""
     new_ans = ""
     base = "http://api.railwayapi.com/pnr_status/pnr/"

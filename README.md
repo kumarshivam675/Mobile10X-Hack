@@ -42,14 +42,19 @@
 ## Live Train Status
   - return you the current status of the train, with the delay till the last station.
   - for using this send a message as "#status train_number yyyymmdd"
+  - and this date is the date train started
 
 ## Nearby hospitals
   - this list out the five hospitals near your locality for this it will also ask about the location.
   - send a message with "#hospitals" this will further ask you about the current location and use location of whatsapp then it will return you the desired result.
 
 ## Passport
-  - send a message with "#passpost" to get your passport status.
+  - send a message with "#passport" to get your passport status.
 
-## Complaint
+## Complaints
   - Using this citizens of a city can post complaints with the image of the problem such as piled up garbage lying on the road, electric poles not functioning and numerous other. Once the image is sent the user will be asked to send his location which will then be recorded and can be viewed on Google maps.
-  - send a message with "#complaint" this will ask you for the image upload the image with the caption and on the server side we can visualize this on the google maps.
+  - send a message with "#complaints" this will ask you for the image upload the image with the caption and on the server side we can visualize this on the google maps.
+
+## Routes
+  - It takes destination as input and tell user about the route how to reach that location
+  - send a message as "routes <destination>"
